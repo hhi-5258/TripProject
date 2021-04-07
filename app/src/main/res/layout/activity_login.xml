@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.hhi.tripproject.viewmodel.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_green"
+        tools:context=".view.LoginActivity">
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/title"
+            android:textColor="@color/white"
+            android:textSize="44sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/login_title_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_small_title"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_title" />
+
+        <EditText
+            android:id="@+id/login_edit_id"
+            android:layout_width="250dp"
+            android:layout_height="33dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:hint="아이디"
+            android:paddingLeft="10dp"
+            android:text="@={vm.id}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/login_edit_pw"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <EditText
+            android:id="@+id/login_edit_pw"
+            android:layout_width="250dp"
+            android:layout_height="33dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:text="@={vm.pw}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/login_center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/login_center"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/login_standard_login"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_round"
+                android:gravity="center"
+                android:onClick="@{()->vm.login()}"
+                android:text="@string/login"
+                android:textColor="@color/main_green"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/login_sign"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_round"
+                android:gravity="center"
+                android:onClick="@{()->vm.signUp()}"
+                android:text="@string/signup"
+                android:textColor="@color/main_green"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/login_naver"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:scaleType="fitXY"
+            android:onClick="@{()->vm.naverLogin()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_center" />
+
+        <TextView
+            android:id="@+id/login_kakao"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/kakao_login"
+            android:onClick="@{()->vm.kakaoLogin()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_naver" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/login_google"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_kakao" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_facebook"
+            android:layout_width="250dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:onClick="@{()->vm.facebookLogin()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_google" />
+
+        <TextView
+            android:id="@+id/login_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:text="@string/login_notice"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

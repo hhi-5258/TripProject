@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TripProject</string>
+    <string name="title">여행기</string>
+    <string name="login_small_title">열심히 일 한 당신 떠나요!</string>
+    <string name="login">로그인</string>
+    <string name="signup">회원 가입</string>
+    <string name="login_notice">본 서비스는 여행기의 내용을 회원끼리 공유하는 서비스입니다.</string>
+    <string name="btn_ok">확인</string>
+    <string name="id_hint">아이디를 입력해 주세요.</string>
+    <string name="pw_hint">비밀번호를 입력해 주세요.</string>
+    <string name="pw_confirm">비밀번호를 확인해 주세요.</string>
+    <string name="facebook_app_id">874811559731163</string> <string name="fb_login_protocol_scheme">fb874811559731163</string>
+</resources>
