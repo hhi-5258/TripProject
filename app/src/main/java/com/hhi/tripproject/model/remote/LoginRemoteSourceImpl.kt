@@ -2,6 +2,7 @@ package com.hhi.tripproject.model.remote
 
 import com.hhi.tripproject.model.data.Login
 import com.hhi.tripproject.model.data.SignUp
+import com.hhi.tripproject.model.data.TourList
 import com.hhi.tripproject.model.network.ServerAPI
 import retrofit2.Call
 import retrofit2.Response
@@ -46,6 +47,24 @@ class LoginRemoteSourceImpl @Inject constructor(
             }
 
             override fun onFailure(call: Call<SignUp.Response>, t: Throwable) {
+                failed(t)
+            }
+        })
+    }
+
+    override fun getTourList(
+        body: TourList.Request,
+        success: (TourList.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        api.getTourList(body).enqueue(object : retrofit2.Callback<TourList.Response> {
+            override fun onResponse(
+                call: Call<TourList.Response>,
+                response: Response<TourList.Response>
+            ) {
+                response.body()?.let { success(it) }
+            }
+            override fun onFailure(call: Call<TourList.Response>, t: Throwable) {
                 failed(t)
             }
         })

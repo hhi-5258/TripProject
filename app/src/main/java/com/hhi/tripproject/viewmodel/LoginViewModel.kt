@@ -55,6 +55,7 @@ class LoginViewModel @ViewModelInject constructor(
                 if (it.success) {
                     _loginSuccessEvent.call()
                     loginRepositoryImpl.saveToken(token)
+                    loginRepositoryImpl.saveUserIdx(it.data.useridx)
                 } else {
                     _loginFailedEvent.value = it.message
                     Log.e("signup_failed", it.message)

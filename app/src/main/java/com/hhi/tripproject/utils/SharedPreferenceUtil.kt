@@ -16,6 +16,14 @@ class SharedPreferenceUtil @Inject constructor() {
         return preference.getString(key, null) ?: ""
     }
 
+    fun setInt(value: Int, key: String) {
+        preference.edit { putInt(key, value) }
+    }
+
+    fun getInt(key: String): Int {
+        return preference.getInt(key, 0) ?: 0
+    }
+
     companion object {
         private const val FILE_NAME = "prefs"
     }

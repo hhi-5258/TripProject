@@ -2,6 +2,7 @@ package com.hhi.tripproject.model.repository
 
 import com.hhi.tripproject.model.data.Login
 import com.hhi.tripproject.model.data.SignUp
+import com.hhi.tripproject.model.data.TourList
 import com.hhi.tripproject.model.local.LoginLocalDataSourceImpl
 import com.hhi.tripproject.model.remote.LoginRemoteSourceImpl
 import javax.inject.Inject
@@ -26,6 +27,14 @@ class LoginRepositoryImpl @Inject constructor(
         loginRemoteDataSource.signUp(body, success, failed)
     }
 
+    override fun getTourList(
+        body: TourList.Request,
+        success: (TourList.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        loginRemoteDataSource.getTourList(body, success, failed)
+    }
+
     override fun saveToken(token: String) {
         loginLocalDataSource.saveToken(token)
     }
@@ -34,5 +43,12 @@ class LoginRepositoryImpl @Inject constructor(
         return loginLocalDataSource.getToken()
     }
 
+    override fun saveUserIdx(userIdx: Int) {
+        loginLocalDataSource.saveUserIdx(userIdx)
+    }
+
+    override fun getUserIdx(): Int {
+        return loginLocalDataSource.getUserIdx()
+    }
 
 }

@@ -27,6 +27,7 @@ import com.hhi.tripproject.R
 import com.hhi.tripproject.base.BaseActivity
 import com.hhi.tripproject.databinding.ActivityLoginBinding
 import com.hhi.tripproject.global.App
+import com.hhi.tripproject.view.main.MainActivity
 import com.hhi.tripproject.viewmodel.LoginViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient

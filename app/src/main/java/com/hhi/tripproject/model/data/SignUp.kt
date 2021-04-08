@@ -6,9 +6,15 @@ package com.hhi.tripproject.model.data
 class SignUp{
     data class Response(
         val success: Boolean,
-        val data: String,
+        val data: Data,
         val message: String
     )
+
+    data class Data(
+        val email: String,
+        val useridx: Int
+    )
+
     data class Request(
         val email: String,
         val password: String,
