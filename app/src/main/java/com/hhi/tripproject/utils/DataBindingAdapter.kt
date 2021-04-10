@@ -8,6 +8,7 @@ import com.hhi.tripproject.view.main.MainRecyclerAdapter
 
 @BindingAdapter("items")
 fun RecyclerView.setItems(items: List<Any>?){
+    Log.d("setTour", "bindingAdapter $items")
     items?.let {
         when (adapter) {
             is MainRecyclerAdapter -> (adapter as MainRecyclerAdapter).setTourList(it as ArrayList<TourList.TourData>)

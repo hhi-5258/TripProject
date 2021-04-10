@@ -34,6 +34,7 @@ class LoginViewModel @ViewModelInject constructor(
             success = {
                 _loginSuccessEvent.call()
                 loginRepositoryImpl.saveToken(it.data.token)
+                loginRepositoryImpl.saveUserIdx(it.data.useridx)
             },
             failed = {
                 _loginFailedEvent.value = it.toString()

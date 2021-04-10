@@ -16,7 +16,7 @@ class Login {
         val token: String,
         val refreshToken: String,
         val email: String,
-        val useridx: String,
+        val useridx: Int,
         val nickname: String
     )
 }

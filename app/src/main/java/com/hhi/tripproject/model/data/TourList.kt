@@ -8,7 +8,7 @@ class TourList {
     data class Response(
         val success: Boolean,
         val message: String,
-        val data: TourList.Data
+        val data: Data
     )
 
     data class Data(
