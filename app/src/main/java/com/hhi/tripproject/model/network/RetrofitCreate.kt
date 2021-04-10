@@ -17,37 +17,56 @@ class RetrofitCreate {
 
     @Provides
     @Singleton
-    fun createRetrofits(): Retrofit {
+    fun serverRetrofits(): ServerAPI {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val headerInterceptor = Interceptor {
-            val request = it.request()
-                .newBuilder()
-                .build()
-            return@Interceptor it.proceed(request)
-        }
-
         val client = OkHttpClient.Builder()
-            .addInterceptor(headerInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("https://azanghs.cafe24.com/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(ServerAPI::class.java)
     }
 
     @Provides
     @Singleton
-    fun ServerAPI(retrofit: Retrofit): ServerAPI {
-        return retrofit.create(ServerAPI::class.java)
+    fun naverRetrofits(): NaverAPI {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://openapi.naver.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NaverAPI::class.java)
     }
 
-    companion object {
-        private const val BASE_URL = "https://azanghs.cafe24.com/"
+    @Provides
+    @Singleton
+    fun kakaoRetrofits(): KakaoAPI {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://kapi.kakao.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(KakaoAPI::class.java)
     }
 }
 

@@ -51,10 +51,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         binding.vm = vm
 
         // Check AutoLogin
-        if (vm.isLoggedIn()) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+//        if (vm.isLoggedIn()) {
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+//        }
 
         setObserver()
         init()
@@ -102,7 +102,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    vm.saveTokenToServer(token = idToken, provider = "G")
+                    vm.saveTokenToServer(token = idToken, provider = "G", email = auth.currentUser.email)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
@@ -116,7 +116,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    vm.saveTokenToServer(token = token.toString(), provider = "F")
+                    vm.saveTokenToServer(token = token.toString(), provider = "F", email = auth.currentUser.email)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
@@ -152,7 +152,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     if (success) {
                         val accessToken: String =
                             mOAuthLoginInstance.getAccessToken(this@LoginActivity)
-                        vm.saveTokenToServer(token = accessToken, provider = "N")
+                        vm.getNaverEmail(accessToken)
                     } else {
                         val errorCode: String =
                             mOAuthLoginInstance.getLastErrorCode(this@LoginActivity).code
@@ -172,7 +172,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 if (error != null) {
                     Log.e(TAG, "kakaoLoginfailed:")
                 } else if (token != null) {
-                    vm.saveTokenToServer(token = token.accessToken, provider = "K")
+                    vm.getKakaoEmail(token.accessToken)
+//                    vm.saveTokenToServer(token = token.accessToken, provider = "K", email = "")
                 }
             }
 

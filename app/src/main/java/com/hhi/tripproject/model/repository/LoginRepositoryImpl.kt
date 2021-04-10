@@ -1,8 +1,6 @@
 package com.hhi.tripproject.model.repository
 
-import com.hhi.tripproject.model.data.Login
-import com.hhi.tripproject.model.data.SignUp
-import com.hhi.tripproject.model.data.TourList
+import com.hhi.tripproject.model.data.*
 import com.hhi.tripproject.model.local.LoginLocalDataSourceImpl
 import com.hhi.tripproject.model.remote.LoginRemoteSourceImpl
 import javax.inject.Inject
@@ -33,6 +31,22 @@ class LoginRepositoryImpl @Inject constructor(
         failed: (Throwable) -> Unit
     ) {
         loginRemoteDataSource.getTourList(body, success, failed)
+    }
+
+    override fun getNaverEmail(
+        authorization: String,
+        success: (NaverUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        loginRemoteDataSource.getNaverEmail(authorization, success, failed)
+    }
+
+    override fun getKakaoEmail(
+        authorization: String,
+        success: (KakaoUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        loginRemoteDataSource.getKakaoEmail(authorization, success, failed)
     }
 
     override fun saveToken(token: String) {

@@ -1,8 +1,6 @@
 package com.hhi.tripproject.model.remote
 
-import com.hhi.tripproject.model.data.Login
-import com.hhi.tripproject.model.data.SignUp
-import com.hhi.tripproject.model.data.TourList
+import com.hhi.tripproject.model.data.*
 
 interface LoginRemoteSource {
     fun login(
@@ -20,6 +18,18 @@ interface LoginRemoteSource {
     fun getTourList(
         body: TourList.Request,
         success: (TourList.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    )
+
+    fun getNaverEmail(
+        authorization: String,
+        success: (NaverUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    )
+
+    fun getKakaoEmail(
+        authorization: String,
+        success: (KakaoUserInfo.Response) -> Unit,
         failed: (Throwable) -> Unit
     )
 }

@@ -1,8 +1,6 @@
 package com.hhi.tripproject.model.repository
 
-import com.hhi.tripproject.model.data.Login
-import com.hhi.tripproject.model.data.SignUp
-import com.hhi.tripproject.model.data.TourList
+import com.hhi.tripproject.model.data.*
 
 interface LoginRepository {
     fun login(
@@ -23,11 +21,23 @@ interface LoginRepository {
         failed: (Throwable) -> Unit
     )
 
+    fun getNaverEmail(
+        authorization: String,
+        success: (NaverUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    )
+
+    fun getKakaoEmail(
+        authorization: String,
+        success: (KakaoUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    )
+
     fun saveToken(token: String)
 
-    fun getToken() : String
+    fun getToken(): String
 
     fun saveUserIdx(userIdx: Int)
 
-    fun getUserIdx() : Int
+    fun getUserIdx(): Int
 }

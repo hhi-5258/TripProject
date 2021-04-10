@@ -1,15 +1,17 @@
 package com.hhi.tripproject.model.remote
 
-import com.hhi.tripproject.model.data.Login
-import com.hhi.tripproject.model.data.SignUp
-import com.hhi.tripproject.model.data.TourList
+import com.hhi.tripproject.model.data.*
+import com.hhi.tripproject.model.network.KakaoAPI
+import com.hhi.tripproject.model.network.NaverAPI
 import com.hhi.tripproject.model.network.ServerAPI
 import retrofit2.Call
 import retrofit2.Response
 import javax.inject.Inject
 
 class LoginRemoteSourceImpl @Inject constructor(
-    private val api: ServerAPI
+    private val serverApi: ServerAPI,
+    private val naverApi: NaverAPI,
+    private val kakaoApi: KakaoAPI
 ) : LoginRemoteSource {
 
     override fun login(
@@ -17,7 +19,7 @@ class LoginRemoteSourceImpl @Inject constructor(
         success: (Login.Response) -> Unit,
         failed: (Throwable) -> Unit
     ) {
-        api.login(body).enqueue(object : retrofit2.Callback<Login.Response> {
+        serverApi.login(body).enqueue(object : retrofit2.Callback<Login.Response> {
             override fun onResponse(
                 call: Call<Login.Response>,
                 response: Response<Login.Response>
@@ -38,7 +40,7 @@ class LoginRemoteSourceImpl @Inject constructor(
         success: (SignUp.Response) -> Unit,
         failed: (Throwable) -> Unit
     ) {
-        api.signUp(body).enqueue(object : retrofit2.Callback<SignUp.Response> {
+        serverApi.signUp(body).enqueue(object : retrofit2.Callback<SignUp.Response> {
             override fun onResponse(
                 call: Call<SignUp.Response>,
                 response: Response<SignUp.Response>
@@ -57,7 +59,7 @@ class LoginRemoteSourceImpl @Inject constructor(
         success: (TourList.Response) -> Unit,
         failed: (Throwable) -> Unit
     ) {
-        api.getTourList(body).enqueue(object : retrofit2.Callback<TourList.Response> {
+        serverApi.getTourList(body).enqueue(object : retrofit2.Callback<TourList.Response> {
             override fun onResponse(
                 call: Call<TourList.Response>,
                 response: Response<TourList.Response>
@@ -70,4 +72,44 @@ class LoginRemoteSourceImpl @Inject constructor(
         })
     }
 
+    override fun getNaverEmail(
+        authorization: String,
+        success: (NaverUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        naverApi.getNaverEmail(authorization).enqueue(object : retrofit2.Callback<NaverUserInfo.Response> {
+            override fun onResponse(
+                call: Call<NaverUserInfo.Response>,
+                response: Response<NaverUserInfo.Response>
+            ) {
+                response.body()?.let {
+                    success(it)
+                }
+            }
+            override fun onFailure(call: Call<NaverUserInfo.Response>, t: Throwable) {
+                failed(t)
+            }
+        })
+    }
+
+    override fun getKakaoEmail(
+        authorization: String,
+        success: (KakaoUserInfo.Response) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        kakaoApi.getKakaoEmail(authorization).enqueue(object : retrofit2.Callback<KakaoUserInfo.Response> {
+            override fun onResponse(
+                call: Call<KakaoUserInfo.Response>,
+                response: Response<KakaoUserInfo.Response>
+            ) {
+                response.body()?.let {
+                    success(it)
+                }
+            }
+
+            override fun onFailure(call: Call<KakaoUserInfo.Response>, t: Throwable) {
+                failed(t)
+            }
+        })
+    }
 }

@@ -43,11 +43,11 @@ class LoginViewModel @ViewModelInject constructor(
         )
     }
 
-    fun saveTokenToServer(token: String, provider: String) {
+    fun saveTokenToServer(token: String, provider: String, email: String) {
         loginRepositoryImpl.signUp(
             SignUp.Request(
-                email = "",
-                password = "",
+                email = email,
+                password = "1234",
                 provider = provider,
                 token = token,
                 nickname = ""
@@ -65,6 +65,38 @@ class LoginViewModel @ViewModelInject constructor(
             failed = {
                 _loginFailedEvent.value = it.toString()
                 Log.e("signup_failed", it.toString())
+            }
+        )
+    }
+
+    fun getNaverEmail(token: String) {
+        loginRepositoryImpl.getNaverEmail(
+            authorization = "Bearer $token",
+            success = {
+                if (it.message == "success"){
+                    saveTokenToServer(token, "N", it.response.email)
+                } else {
+                    _loginFailedEvent.value = it.message
+                    Log.e("get_naver_email", it.toString())
+                }
+            },
+            failed = {
+                _loginFailedEvent.value = it.toString()
+                Log.e("get_naver_email", it.toString())
+            }
+        )
+    }
+
+    fun getKakaoEmail(token: String) {
+        loginRepositoryImpl.getKakaoEmail(
+            authorization = "Bearer $token",
+            success = {
+                Log.d("getEmail", it.kakao_account.email)
+//                saveTokenToServer(token, "K", it.kakao_account.email)
+            },
+            failed = {
+                _loginFailedEvent.value = it.toString()
+                Log.e("get_kakao_email", it.toString())
             }
         )
     }
