@@ -32,14 +32,41 @@
             android:id="@+id/main_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="20dp"
             android:orientation="vertical"
+            android:padding="20dp"
+            items="@{vm.tourList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/main_bottom_navigation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_text_title" />
+
+        <!--
+        <com.github.kwasow.bottomnavigationcircles.BottomNavigationCircles
+            android:id="@+id/main_bottom_navigation"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_text_title"
-            app:items="@{vm.tourList}"/>
+            app:menu="@menu/main_bottom_navigation"
+            app:labelVisibilityMode="auto"
+            app:circleColor="@color/main_green"
+            app:itemIconTint="@color/navigation_bottom_color"
+            app:itemTextColor="@color/navigation_bottom_color" />!-->
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_navigation"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/main_bottom_navigation"
+            app:labelVisibilityMode="auto"
+            app:itemIconTint="@color/navigation_bottom_color"
+            app:itemTextColor="@color/navigation_bottom_color"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

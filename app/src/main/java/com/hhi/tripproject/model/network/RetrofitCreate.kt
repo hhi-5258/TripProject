@@ -50,23 +50,5 @@ class RetrofitCreate {
             .build()
             .create(NaverAPI::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun kakaoRetrofits(): KakaoAPI {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-        val client = OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl("https://kapi.kakao.com/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(KakaoAPI::class.java)
-    }
 }
 

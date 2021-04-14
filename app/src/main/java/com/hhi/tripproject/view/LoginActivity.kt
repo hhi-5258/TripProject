@@ -30,6 +30,7 @@ import com.hhi.tripproject.global.App
 import com.hhi.tripproject.view.main.MainActivity
 import com.hhi.tripproject.viewmodel.LoginViewModel
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.auth.model.Prompt
 import com.kakao.sdk.user.UserApiClient
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
@@ -51,13 +52,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         binding.vm = vm
 
         // Check AutoLogin
-//        if (vm.isLoggedIn()) {
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
+        if (vm.isLoggedIn()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
 
         setObserver()
         init()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -102,7 +104,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    vm.saveTokenToServer(token = idToken, provider = "G", email = auth.currentUser.email)
+                    vm.saveTokenToServer(
+                        token = idToken,
+                        provider = "G",
+                        email = auth.currentUser.email
+                    )
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
@@ -116,7 +122,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    vm.saveTokenToServer(token = token.toString(), provider = "F", email = auth.currentUser.email)
+                    vm.saveTokenToServer(
+                        token = token.toString(),
+                        provider = "F",
+                        email = auth.currentUser.email
+                    )
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                 }
@@ -168,21 +178,73 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         })
 
         vm.kakaoLoginClickEvent.observe(this, Observer {
+            var email: String = ""
             val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                 if (error != null) {
                     Log.e(TAG, "kakaoLoginfailed:")
                 } else if (token != null) {
-                    vm.getKakaoEmail(token.accessToken)
-//                    vm.saveTokenToServer(token = token.accessToken, provider = "K", email = "")
+
+                    UserApiClient.instance.me { user, error ->
+                        if (error != null) {
+                            Log.e(TAG, "사용자 정보 요청 실패", error)
+                        } else {
+                            if (user?.kakaoAccount?.email != null) {
+                                email = user?.kakaoAccount?.email!!
+                                Log.i(TAG, "사용자 정보 요청 성공 이메일: ${user?.kakaoAccount?.email}")
+                            } else {
+                                var scopes = mutableListOf<String>()
+                                if (user?.kakaoAccount?.emailNeedsAgreement == true) {
+                                    scopes.add("account_email")
+                                }
+                                if (scopes.count() > 0) {
+                                    Log.d(TAG, "사용자에게 추가 동의를 받아야 합니다.")
+
+                                    UserApiClient.instance.loginWithNewScopes(
+                                        this@LoginActivity,
+                                        scopes
+                                    ) { token, error ->
+                                        if (error != null) {
+                                            Log.e(TAG, "사용자 추가 동의 실패", error)
+                                        } else {
+                                            Log.d(TAG, "allowed scopes: ${token!!.scopes}")
+
+                                            // 사용자 정보 재요청
+                                            UserApiClient.instance.me { user, error ->
+                                                if (error != null) {
+                                                    Log.e(TAG, "사용자 정보 요청 실패", error)
+                                                } else if (user != null) {
+                                                    email = user?.kakaoAccount?.email!!
+                                                    Log.i(
+                                                        TAG,
+                                                        "사용자 정보 요청 성공 이메일: ${user.kakaoAccount?.email}"
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            vm.saveTokenToServer(
+                                token = token.accessToken,
+                                provider = "K",
+                                email = email
+                            )
+
+                        }
+                    }
+
                 }
             }
 
             // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
+
                 UserApiClient.instance.loginWithKakaoTalk(this@LoginActivity, callback = callback)
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(
                     this@LoginActivity,
+                    prompts = listOf(Prompt.LOGIN),
                     callback = callback
                 )
             }

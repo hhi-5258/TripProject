@@ -27,12 +27,6 @@ interface LoginRepository {
         failed: (Throwable) -> Unit
     )
 
-    fun getKakaoEmail(
-        authorization: String,
-        success: (KakaoUserInfo.Response) -> Unit,
-        failed: (Throwable) -> Unit
-    )
-
     fun saveToken(token: String)
 
     fun getToken(): String

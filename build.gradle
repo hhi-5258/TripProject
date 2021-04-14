@@ -24,6 +24,8 @@ allprojects {
         jcenter()
 
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        // custom bottom navigation
+        maven { url 'https://jitpack.io' }
 
     }
 }

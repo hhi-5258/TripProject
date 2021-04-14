@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:checked="true"
+        android:icon="@drawable/ic_outline_home_24"
+        android:title="@string/menu_home" />
+
+    <item
+        android:id="@+id/menu_todo"
+        android:icon="@drawable/ic_outline_list_alt_24"
+        android:title="@string/menu_todo" />
+
+    <item
+        android:id="@+id/menu_map"
+        android:icon="@drawable/ic_baseline_location_on_24"
+        android:title="@string/menu_map" />
+
+    <item
+        android:id="@+id/menu_message"
+        android:icon="@drawable/ic_outline_message_24"
+        android:title="@string/menu_message" />
+
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/menu_setting" />
+</menu>

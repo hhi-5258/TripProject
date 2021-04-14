@@ -26,10 +26,4 @@ interface LoginRemoteSource {
         success: (NaverUserInfo.Response) -> Unit,
         failed: (Throwable) -> Unit
     )
-
-    fun getKakaoEmail(
-        authorization: String,
-        success: (KakaoUserInfo.Response) -> Unit,
-        failed: (Throwable) -> Unit
-    )
 }

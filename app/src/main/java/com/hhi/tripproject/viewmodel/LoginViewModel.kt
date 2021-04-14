@@ -87,20 +87,6 @@ class LoginViewModel @ViewModelInject constructor(
         )
     }
 
-    fun getKakaoEmail(token: String) {
-        loginRepositoryImpl.getKakaoEmail(
-            authorization = "Bearer $token",
-            success = {
-                Log.d("getEmail", it.kakao_account.email)
-//                saveTokenToServer(token, "K", it.kakao_account.email)
-            },
-            failed = {
-                _loginFailedEvent.value = it.toString()
-                Log.e("get_kakao_email", it.toString())
-            }
-        )
-    }
-
     fun isLoggedIn() : Boolean {
         return loginRepositoryImpl.getToken().isNotEmpty()
     }

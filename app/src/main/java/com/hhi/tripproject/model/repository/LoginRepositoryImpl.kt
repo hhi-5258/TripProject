@@ -41,14 +41,6 @@ class LoginRepositoryImpl @Inject constructor(
         loginRemoteDataSource.getNaverEmail(authorization, success, failed)
     }
 
-    override fun getKakaoEmail(
-        authorization: String,
-        success: (KakaoUserInfo.Response) -> Unit,
-        failed: (Throwable) -> Unit
-    ) {
-        loginRemoteDataSource.getKakaoEmail(authorization, success, failed)
-    }
-
     override fun saveToken(token: String) {
         loginLocalDataSource.saveToken(token)
     }

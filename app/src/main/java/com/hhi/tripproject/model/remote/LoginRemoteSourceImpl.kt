@@ -1,7 +1,6 @@
 package com.hhi.tripproject.model.remote
 
 import com.hhi.tripproject.model.data.*
-import com.hhi.tripproject.model.network.KakaoAPI
 import com.hhi.tripproject.model.network.NaverAPI
 import com.hhi.tripproject.model.network.ServerAPI
 import retrofit2.Call
@@ -10,8 +9,7 @@ import javax.inject.Inject
 
 class LoginRemoteSourceImpl @Inject constructor(
     private val serverApi: ServerAPI,
-    private val naverApi: NaverAPI,
-    private val kakaoApi: KakaoAPI
+    private val naverApi: NaverAPI
 ) : LoginRemoteSource {
 
     override fun login(
@@ -87,27 +85,6 @@ class LoginRemoteSourceImpl @Inject constructor(
                 }
             }
             override fun onFailure(call: Call<NaverUserInfo.Response>, t: Throwable) {
-                failed(t)
-            }
-        })
-    }
-
-    override fun getKakaoEmail(
-        authorization: String,
-        success: (KakaoUserInfo.Response) -> Unit,
-        failed: (Throwable) -> Unit
-    ) {
-        kakaoApi.getKakaoEmail(authorization).enqueue(object : retrofit2.Callback<KakaoUserInfo.Response> {
-            override fun onResponse(
-                call: Call<KakaoUserInfo.Response>,
-                response: Response<KakaoUserInfo.Response>
-            ) {
-                response.body()?.let {
-                    success(it)
-                }
-            }
-
-            override fun onFailure(call: Call<KakaoUserInfo.Response>, t: Throwable) {
                 failed(t)
             }
         })
