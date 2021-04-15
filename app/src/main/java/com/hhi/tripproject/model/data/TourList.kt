@@ -13,7 +13,7 @@ class TourList {
 
     data class Data(
         val useridx: Int,
-        val tourList: ArrayList<TourData>
+        val tourlist: ArrayList<TourList.TourData>
     )
 
     data class TourData(

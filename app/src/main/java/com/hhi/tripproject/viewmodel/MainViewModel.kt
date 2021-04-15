@@ -20,8 +20,7 @@ class MainViewModel @ViewModelInject constructor(
             body = TourList.Request(useridx = useridx),
             success = {
                 if (it.success) {
-                    _tourList.value = it.data.tourList
-                    Log.d("setTour", tourList.toString())
+                    _tourList.value = it.data.tourlist
                 } else {
                     Log.e("get_tourList_failed", it.message)
                 }
